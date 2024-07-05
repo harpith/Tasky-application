@@ -1,3 +1,38 @@
+// var state = {
+//   taskList: [
+//     {
+//       imageUrl: "",
+//       taskTitle: "",
+//       taskType: "",
+//       taskDescription: "",
+//     },
+//     {
+//       imageUrl: "",
+//       taskTitle: "",
+//       taskType: "",
+//       taskDescription: "",
+//     },
+//     {
+//       imageUrl: "",
+//       taskTitle: "",
+//       taskType: "",
+//       taskDescription: "",
+//     },
+//     {
+//       imageUrl: "",
+//       taskTitle: "",
+//       taskType: "",
+//       taskDescription: "",
+//     },
+//     {
+//       imageUrl: "",
+//       taskTitle: "",
+//       taskType: "",
+//       taskDescription: "",
+//     },
+//   ],
+// };
+
 // backup storage
 const state = {
   taskList: [],
@@ -17,16 +52,17 @@ const htmlTaskContent = ({ id, title, description, type, url }) => `
     <div class='card shadow-sm task__card'>
     
       <div class='card-header d-flex justify-content-end task__card__header'>
-          <button type='button' class='btn btn-outline-primary mr-1.5' name=${id}>
+          <button type='button' class='btn btn-outline-primary mr-2' name=${id} onclick="editTask.apply(this, arguments)">
               <i class='fas fa-pencil-alt name=${id}'></i>
           </button>
-           <button type='button' class='btn btn-outline-danger mr-1.5' name=${id} onclick="deleteTask.apply(this, arguments)">
+           <button type='button' class='btn btn-outline-danger mr-2' name=${id} onclick="deleteTask.apply(this, arguments)">
               <i class='fas fa-trash-alt name=${id}' ></i>
           </button>
       </div>
       <div class='card-body'>
           ${
-           
+            // url &&
+            // `<img width='100%' src=${url} alt='Card Image' class='card-img-top md-3 rounded-lg' />`
             url
               ? `<img width='100%' src=${url} alt='Card Image' class='card-img-top md-3 rounded-lg' />`
               : `<img width='100%' src="https://tse1.mm.bing.net/th?id=OIP.F00dCf4bXxX0J-qEEf4qIQHaD6&pid=Api&rs=1&c=1&qlt=95&w=223&h=117" alt='Card Image' class='card-img-top md-3 rounded-lg' />`
@@ -50,7 +86,9 @@ const htmlModalContent = ({ id, title, description, url }) => {
   return `
   <div id=${id}>
      ${
-
+       //  url &&
+       //  //  `<img width='100%' src=${url} alt='Card Image' class='img-fluid place__holder__image mb-3' />`
+       //  `<img width='100%' src=${url} alt='Card Image' class='img-fluid place__holder__image mb-3' />`
        url
          ? `<img width='100%' src=${url} alt='Card Image' class='card-img-top md-3 rounded-lg' />`
          : `<img width='100%' src="https://tse1.mm.bing.net/th?id=OIP.F00dCf4bXxX0J-qEEf4qIQHaD6&pid=Api&rs=1&c=1&qlt=95&w=223&h=117" alt='Card Image' class='card-img-top md-3 rounded-lg' />`
@@ -72,7 +110,18 @@ const updateLocalStorage = () => {
   );
 };
 
-// where we convert str > json (i.e., for rendering the cards on the screen
+// where we convert str > json (i.e., for rendering the cards on the screen)
+// const loadInitialData = () => {
+//   const localStorageCopy = JSON.parse(localStorage.task);
+
+//   if (localStorageCopy) state.taskList = localStorageCopy.tasks;
+
+//   state.taskList.map((cardDate) => {
+//     // taskContents.innerAdjacentHTML("beforeend", htmlTaskContent(cardDate));
+//     taskContents.insertAdjacentHTML("beforeend", htmlTaskContent(cardDate));
+//   });
+// };
+
 const loadInitialData = () => {
   const localStorageCopy = JSON.parse(localStorage.task);
 
@@ -83,7 +132,52 @@ const loadInitialData = () => {
   });
 };
 
+// Spread Operator
+/**
+ const obj = {
+    name: "rohan",
+    age: 2
+}
 
+
+console.log(obj);
+ {name: 'rohan', age: 2}
+
+console.log({obj});
+ {obj: {…}}obj: {name: 'rohan', age: 2}[[Prototype]]: Object
+
+console.log({...obj});
+ {name: 'rohan', age: 2}
+
+//  appending or adding a new key into obj:
+console.log({...obj, designation: "mentor"});
+{name: 'rohan', age: 2, designation: 'mentor'}
+ */
+
+/**
+ * 
+//  updating key value using spread operator
+const obj={
+    name: "rohan"
+}
+
+console.log(obj)
+ {name: 'rohan'}
+
+
+console.log({...obj, age : 2});
+ {name: 'rohan', age: 2}
+
+console.log({...obj, age :4});
+{name: 'rohan', age: 4}
+ */
+
+/* 
+var date = new Date();
+console.log(Date.now());
+
+1677511569666
+*/
 
 // when we update or when we edit ..we need to save
 const handleSubmit = (event) => {
@@ -109,25 +203,28 @@ const handleSubmit = (event) => {
   updateLocalStorage();
 };
 
-const openTask=(e)=>{
-  if(!e) e=window.event;
-  const gettask =state.taskList.find(({ id }) => id === e.target.id);
-  taskModal.innerHTML=htmlModalContent(gettask);
+//open task
+const openTask = (e) => {
+  if (!e) e = window.event;
+
+  const getTask = state.taskList.find(({ id }) => id === e.target.id);
+  taskModal.innerHTML = htmlModalContent(getTask);
 };
 
+// delete task
 const deleteTask = (e) => {
   if (!e) e = window.event;
 
   const targetId = e.target.getAttribute("name");
-  console.log(targetId);
+  // console.log(targetId);
   const type = e.target.tagName;
-  console.log(type);
+  // console.log(type);
   const removeTask = state.taskList.filter(({ id }) => id !== targetId);
-  console.log(removeTask);
+  // console.log(removeTask);
   updateLocalStorage();
 
   if (type === "BUTTON") {
-    console.log(e.target.parentNode.parentNode.parentNode.parentNode);
+    // console.log(e.target.parentNode.parentNode.parentNode.parentNode);
     return e.target.parentNode.parentNode.parentNode.parentNode.removeChild(
       e.target.parentNode.parentNode.parentNode
     );
@@ -138,6 +235,7 @@ const deleteTask = (e) => {
   }
 };
 
+// edit task
 const editTask = (e) => {
   if (!e) e = window.event;
 
@@ -155,6 +253,7 @@ const editTask = (e) => {
   } else {
     parentNode = e.target.parentNode.parentNode.parentNode;
   }
+  updateLocalStorage()
 
   // taskTitle = parentNode.childNodes[3].childNodes[7].childNodes;
   // console.log(taskTitle);
@@ -238,3 +337,4 @@ const searchTask = (e) => {
     // taskContents.insertAdjacentHTML("beforeend", htmlModalContent(cardData))
   );
 };
+
