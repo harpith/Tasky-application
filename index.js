@@ -1,38 +1,3 @@
-// var state = {
-//   taskList: [
-//     {
-//       imageUrl: "",
-//       taskTitle: "",
-//       taskType: "",
-//       taskDescription: "",
-//     },
-//     {
-//       imageUrl: "",
-//       taskTitle: "",
-//       taskType: "",
-//       taskDescription: "",
-//     },
-//     {
-//       imageUrl: "",
-//       taskTitle: "",
-//       taskType: "",
-//       taskDescription: "",
-//     },
-//     {
-//       imageUrl: "",
-//       taskTitle: "",
-//       taskType: "",
-//       taskDescription: "",
-//     },
-//     {
-//       imageUrl: "",
-//       taskTitle: "",
-//       taskType: "",
-//       taskDescription: "",
-//     },
-//   ],
-// };
-
 // backup storage
 const state = {
   taskList: [],
@@ -42,11 +7,7 @@ const state = {
 const taskModal = document.querySelector(".task__modal__body");
 const taskContents = document.querySelector(".task__contents");
 
-// console.log(taskContents);
-// console.log(taskModal);
 
-// Template for the card on screen
-// elem identifier key=${id} is been misssing on line 50th
 const htmlTaskContent = ({ id, title, description, type, url }) => `
   <div class="col-md-6 col-lg-4 mt-3" id=${id} key=${id}>
     <div class='card shadow-sm task__card'>
@@ -110,17 +71,7 @@ const updateLocalStorage = () => {
   );
 };
 
-// where we convert str > json (i.e., for rendering the cards on the screen)
-// const loadInitialData = () => {
-//   const localStorageCopy = JSON.parse(localStorage.task);
 
-//   if (localStorageCopy) state.taskList = localStorageCopy.tasks;
-
-//   state.taskList.map((cardDate) => {
-//     // taskContents.innerAdjacentHTML("beforeend", htmlTaskContent(cardDate));
-//     taskContents.insertAdjacentHTML("beforeend", htmlTaskContent(cardDate));
-//   });
-// };
 
 const loadInitialData = () => {
   const localStorageCopy = JSON.parse(localStorage.task);
@@ -132,52 +83,7 @@ const loadInitialData = () => {
   });
 };
 
-// Spread Operator
-/**
- const obj = {
-    name: "rohan",
-    age: 2
-}
 
-
-console.log(obj);
- {name: 'rohan', age: 2}
-
-console.log({obj});
- {obj: {…}}obj: {name: 'rohan', age: 2}[[Prototype]]: Object
-
-console.log({...obj});
- {name: 'rohan', age: 2}
-
-//  appending or adding a new key into obj:
-console.log({...obj, designation: "mentor"});
-{name: 'rohan', age: 2, designation: 'mentor'}
- */
-
-/**
- * 
-//  updating key value using spread operator
-const obj={
-    name: "rohan"
-}
-
-console.log(obj)
- {name: 'rohan'}
-
-
-console.log({...obj, age : 2});
- {name: 'rohan', age: 2}
-
-console.log({...obj, age :4});
-{name: 'rohan', age: 4}
- */
-
-/* 
-var date = new Date();
-console.log(Date.now());
-
-1677511569666
-*/
 
 // when we update or when we edit ..we need to save
 const handleSubmit = (event) => {
@@ -221,7 +127,7 @@ const deleteTask = (e) => {
   // console.log(type);
   const removeTask = state.taskList.filter(({ id }) => id !== targetId);
   // console.log(removeTask);
-  updateLocalStorage();
+ 
 
   if (type === "BUTTON") {
     // console.log(e.target.parentNode.parentNode.parentNode.parentNode);
@@ -232,7 +138,8 @@ const deleteTask = (e) => {
     return e.target.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(
       e.target.parentNode.parentNode.parentNode.parentNode
     );
-  }
+  }updateLocalStorage()
+
 };
 
 // edit task
@@ -254,6 +161,7 @@ const editTask = (e) => {
     parentNode = e.target.parentNode.parentNode.parentNode;
   }
   updateLocalStorage()
+
 
   // taskTitle = parentNode.childNodes[3].childNodes[7].childNodes;
   // console.log(taskTitle);
